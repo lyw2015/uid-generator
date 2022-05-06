@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class UidGeneratorProperties {
 
+    private String token;
     private int timeBits;
     private int workerBits;
     private int seqBits;
@@ -20,6 +21,14 @@ public class UidGeneratorProperties {
     private int boostPower;
     private int paddingFactor;
     private long scheduleInterval;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public int getTimeBits() {
         return timeBits;

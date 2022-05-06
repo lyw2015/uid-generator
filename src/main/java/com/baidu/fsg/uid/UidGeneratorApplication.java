@@ -4,6 +4,7 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.baidu.fsg.uid.core.UidGeneratorProperties;
 import com.baidu.fsg.uid.core.impl.CachedUidGenerator;
 import com.baidu.fsg.uid.core.impl.DefaultUidGenerator;
+import com.baidu.fsg.uid.handler.AuthInterceptor;
 import com.baidu.fsg.uid.handler.CustomRejectedPutBufferHandler;
 import com.baidu.fsg.uid.handler.CustomRejectedTakeBufferHandler;
 import com.baidu.fsg.uid.worker.DisposableWorkerIdAssigner;
@@ -12,6 +13,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.sql.DataSource;
 
@@ -27,9 +30,21 @@ public class UidGeneratorApplication {
 
     @Autowired
     private UidGeneratorProperties properties;
+    @Autowired
+    private AuthInterceptor authInterceptor;
 
     public static void main(String[] args) {
         SpringApplication.run(UidGeneratorApplication.class, args);
+    }
+
+    @Bean
+    public WebMvcConfigurer authWebMvcConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addInterceptors(InterceptorRegistry registry) {
+                registry.addInterceptor(authInterceptor);
+            }
+        };
     }
 
     @ConfigurationProperties(prefix = "spring.datasource")
