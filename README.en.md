@@ -143,7 +143,7 @@ public void testSerialGenerate() {
 
 ### Step 5：HTTP
 ```http request
-http://localhost:8888/generator
+GET http://localhost:8888/generator
 ```
 
 ### Tips

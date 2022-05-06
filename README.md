@@ -128,7 +128,7 @@ public void testSerialGenerate() {
 
 ### 步骤5：HTTP访问
 ```http request
-http://localhost:8888/generator
+GET http://localhost:8888/generator
 ```
 
 ### 关于UID比特分配的建议
