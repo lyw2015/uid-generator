@@ -15,11 +15,11 @@
  */
 package com.baidu.fsg.uid.utils;
 
+import org.apache.commons.lang.time.DateFormatUtils;
+
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
-
-import org.apache.commons.lang.time.DateFormatUtils;
 
 /**
  * DateUtils provides date formatting, parsing

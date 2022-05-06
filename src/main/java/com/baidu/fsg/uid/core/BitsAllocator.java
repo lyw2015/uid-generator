@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.baidu.fsg.uid;
+package com.baidu.fsg.uid.core;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
@@ -22,7 +22,7 @@ import org.springframework.util.Assert;
 /**
  * Allocate 64 bits for the UID(long)<br>
  * sign (fixed 1bit) -> deltaSecond -> workerId -> sequence(within the same second)
- * 
+ *
  * @author yutianbao
  */
 public class BitsAllocator {
@@ -34,7 +34,7 @@ public class BitsAllocator {
     /**
      * Bits for [sign-> second-> workId-> sequence]
      */
-    private int signBits = 1;
+    private final int signBits = 1;
     private final int timestampBits;
     private final int workerIdBits;
     private final int sequenceBits;
@@ -79,7 +79,7 @@ public class BitsAllocator {
     /**
      * Allocate bits for UID according to delta seconds & workerId & sequence<br>
      * <b>Note that: </b>The highest bit will always be 0 for sign
-     * 
+     *
      * @param deltaSeconds
      * @param workerId
      * @param sequence
@@ -88,7 +88,7 @@ public class BitsAllocator {
     public long allocate(long deltaSeconds, long workerId, long sequence) {
         return (deltaSeconds << timestampShift) | (workerId << workerIdShift) | sequence;
     }
-    
+
     /**
      * Getters
      */
@@ -127,10 +127,10 @@ public class BitsAllocator {
     public int getWorkerIdShift() {
         return workerIdShift;
     }
-    
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
-    
+
 }

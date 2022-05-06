@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.baidu.fsg.uid;
+package com.baidu.fsg.uid.core;
 
 import com.baidu.fsg.uid.exception.UidGenerateException;
 

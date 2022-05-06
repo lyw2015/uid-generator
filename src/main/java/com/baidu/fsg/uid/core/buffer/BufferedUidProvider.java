@@ -13,21 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.baidu.fsg.uid.buffer;
+package com.baidu.fsg.uid.core.buffer;
+
+import java.util.List;
 
 /**
- * If cursor catches the tail it means that the ring buffer is empty, any more buffer take request will be rejected.
- * Specify the policy to handle the reject. This is a Lambda supported interface
- * 
+ * Buffered UID provider(Lambda supported), which provides UID in the same one second
+ *
  * @author yutianbao
  */
 @FunctionalInterface
-public interface RejectedTakeBufferHandler {
+public interface BufferedUidProvider {
 
     /**
-     * Reject take buffer request
-     * 
-     * @param ringBuffer
+     * Provides UID in one second
+     *
+     * @param momentInSecond
+     * @return
      */
-    void rejectTakeBuffer(RingBuffer ringBuffer);
+    List<Long> provide(long momentInSecond);
 }

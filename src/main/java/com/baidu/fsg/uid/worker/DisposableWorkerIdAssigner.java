@@ -27,12 +27,13 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 
 /**
- * Represents an implementation of {@link WorkerIdAssigner}, 
+ * Represents an implementation of {@link WorkerIdAssigner},
  * the worker id will be discarded after assigned to the UidGenerator
- * 
+ *
  * @author yutianbao
  */
 public class DisposableWorkerIdAssigner implements WorkerIdAssigner {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(DisposableWorkerIdAssigner.class);
 
     @Resource
@@ -42,9 +43,10 @@ public class DisposableWorkerIdAssigner implements WorkerIdAssigner {
      * Assign worker id base on database.<p>
      * If there is host name & port in the environment, we considered that the node runs in Docker container<br>
      * Otherwise, the node runs on an actual machine.
-     * 
+     *
      * @return assigned worker id
      */
+    @Override
     @Transactional
     public long assignWorkerId() {
         // build worker node entity

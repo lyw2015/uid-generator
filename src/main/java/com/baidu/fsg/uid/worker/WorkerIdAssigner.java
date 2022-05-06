@@ -15,16 +15,18 @@
  */
 package com.baidu.fsg.uid.worker;
 
+import com.baidu.fsg.uid.core.impl.DefaultUidGenerator;
+
 /**
- * Represents a worker id assigner for {@link com.baidu.fsg.uid.impl.DefaultUidGenerator}
- * 
+ * Represents a worker id assigner for {@link DefaultUidGenerator}
+ *
  * @author yutianbao
  */
 public interface WorkerIdAssigner {
 
     /**
-     * Assign worker id for {@link com.baidu.fsg.uid.impl.DefaultUidGenerator}
-     * 
+     * Assign worker id for {@link DefaultUidGenerator}
+     *
      * @return assigned worker id
      */
     long assignWorkerId();

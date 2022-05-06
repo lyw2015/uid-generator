@@ -1,5 +1,13 @@
 package com.baidu.fsg.uid;
 
+import com.baidu.fsg.uid.core.UidGenerator;
+import com.baidu.fsg.uid.core.impl.DefaultUidGenerator;
+import org.apache.commons.lang.StringUtils;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -7,30 +15,19 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.annotation.Resource;
-
-import org.apache.commons.lang.StringUtils;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import com.baidu.fsg.uid.impl.DefaultUidGenerator;
-
 /**
  * Test for {@link DefaultUidGenerator}
- * 
+ *
  * @author yutianbao
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:uid/default-uid-spring.xml" })
+@SpringBootTest
 public class DefaultUidGeneratorTest {
+
     private static final int SIZE = 100000; // 10w
     private static final boolean VERBOSE = true;
     private static final int THREADS = Runtime.getRuntime().availableProcessors() << 1;
 
-    @Resource
+    @Resource(name = "defaultUidGenerator")
     private UidGenerator uidGenerator;
 
     /**
@@ -50,7 +47,7 @@ public class DefaultUidGeneratorTest {
 
     /**
      * Test for parallel generate
-     * 
+     *
      * @throws InterruptedException
      */
     @Test
@@ -74,7 +71,7 @@ public class DefaultUidGeneratorTest {
         }
 
         // Check generate 10w times
-        Assert.assertEquals(SIZE, control.get());
+        Assertions.assertEquals(SIZE, control.get());
 
         // Check UIDs are all unique
         checkUniqueID(uidSet);
@@ -84,7 +81,7 @@ public class DefaultUidGeneratorTest {
      * Worker run
      */
     private void workerRun(Set<Long> uidSet, AtomicInteger control) {
-        for (;;) {
+        for (; ; ) {
             int myPosition = control.updateAndGet(old -> (old == SIZE ? SIZE : old + 1));
             if (myPosition == SIZE) {
                 return;
@@ -103,8 +100,8 @@ public class DefaultUidGeneratorTest {
         uidSet.add(uid);
 
         // Check UID is positive, and can be parsed
-        Assert.assertTrue(uid > 0L);
-        Assert.assertTrue(StringUtils.isNotBlank(parsedInfo));
+        Assertions.assertTrue(uid > 0L);
+        Assertions.assertTrue(StringUtils.isNotBlank(parsedInfo));
 
         if (VERBOSE) {
             System.out.println(Thread.currentThread().getName() + " No." + index + " >>> " + parsedInfo);
@@ -116,7 +113,7 @@ public class DefaultUidGeneratorTest {
      */
     private void checkUniqueID(Set<Long> uidSet) {
         System.out.println(uidSet.size());
-        Assert.assertEquals(SIZE, uidSet.size());
+        Assertions.assertEquals(SIZE, uidSet.size());
     }
 
 }
